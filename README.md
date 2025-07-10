@@ -7,8 +7,6 @@ GCP terraform module to create the FinTe Read Only service account.
 
 Make sure the service account that will run this terraform script has the following roles granted.
 * Organization Administrator
-* Organization Policy Administrator
-* Organization Role Administrator
 * Service Account Admin
 * Service Account Key Admin
 * Service Usage Admin

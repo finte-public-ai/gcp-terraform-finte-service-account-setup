@@ -8,12 +8,6 @@ variable "gcp_org_domain" {
   description = "GCP Organization domain."
 }
 
-variable "connect_multiple_projects" {
-  type        = bool
-  description = "Tells the service account whether it can see all the projects or not."
-  default     = true
-}
-
 variable "gcp_services" {
   type = list(string)
   default = [

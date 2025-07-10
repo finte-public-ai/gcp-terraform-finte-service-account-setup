@@ -24,7 +24,6 @@ module "service_account_creation" {
   gcp_org_domain = "YOUR_ORGANIZATION_DOMAIN"
   gcp_project_id = "YOUR_PROJECT_ID" # Service accounts are GCP resources that must belong to a project. Which project you choose is not important.
   # finte_service_account_name = "YOUR_SERVICE_ACCOUNT_NAME" # if it's unset, the default name is FinTeReadOnly
-  # connect_multiple_projects = false # if it's unset, the default value is true
 }
 
 output "finte_service_account_key" {
@@ -36,15 +35,27 @@ output "finte_service_account_key" {
 
 After you apply this terraform, run the following command to retrieve the key file `finte-gcp-private-key.json`
 ```
-terraform output -raw finte_service_account_key > finte-gcp-private-key.json
+terraform output -raw finte_service_account_key |pbcopy
 ```
 
 ## Troubleshooting
 
-1. Fixing `FAILED_PRECONDITION: Key creation is not allowed on this service account (type: constraints/iam.disableServiceAccountKeyCreation)` issue.
+1. Fixing `CUSTOM_ORG_POLICY_VIOLATION: Error creating service account: googleapi: Error 400: Operation denied by org policy: ["constraints/iam.managed.disableServiceAccountCreation"]` issue
+
    * Go to the [IAM Organization Policies](https://console.cloud.google.com/iam-admin/orgpolicies) page.
    * Make sure the project where the service account will be stored is selected top left in the console.
-   * Type `Disable service account key creation` on the `🔽 Filter` bar and select the policy.
+   * Type `iam.managed.disableServiceAccountCreation` on the `🔽 Filter` bar and select the policy.
+   * Click over `📝 MANAGE POLICY` button.
+   * Go to `Policy source` and select the `Override parent's policy` option.
+   * Scroll down a little and open up the `Enforced` rule.
+   * Make sure the `Enforcement` section is `Off`.
+   * Click `SET POLICY` to save changes.
+   * Run this script again.
+
+1. Fixing `CUSTOM_ORG_POLICY_VIOLATION: Error creating service account key: googleapi: Error 400: Operation denied by org policy: ["constraints/iam.managed.disableServiceAccountKeyCreation": "This constraint, when enforced, blocks service account key creation."].` issue.
+   * Go to the [IAM Organization Policies](https://console.cloud.google.com/iam-admin/orgpolicies) page.
+   * Make sure the project where the service account will be stored is selected top left in the console.
+   * Type `iam.managed.disableServiceAccountKeyCreation` on the `🔽 Filter` bar and select the policy.
    * Click over `📝 MANAGE POLICY` button.
    * Go to `Policy source` and select the `Override parent's policy` option.
    * Scroll down a little and open up the `Enforced` rule.
@@ -62,13 +73,12 @@ The following steps demonstrate how to connect GCP in FinTe when using this terr
 4. Replace `YOUR_ORGANIZATION_DOMAIN` with the GCP organization domain.
 5. Replace `YOUR_PROJECT_ID` with a project in your organization which the service account should belong to.
 6. Replace the given `finte_service_account_name` if you don't want the Service Account name to be the default: `FinTeReadOnly`.
-7. If you don't wish to connect multiple projects to FinTe the `connect_multiple_projects` variable must be `false` otherwise `true` or unset.
 8. Back in your terminal, run `terraform init` to download/update the module.
 9. Run `terraform apply` and **IMPORTANT** review the plan output before typing `yes`.
-10. If successful, run the command to generate the json key file
-     - `terraform output -raw finte_service_account_key > finte-gcp-private-key.json` .
-11. Verify the file has been generated.
-12. Go to the GCP connection and select copy the contents of the `finte-gcp-private-key.json` file into the text field labeled `Private Key (JSON)`.
+10. If successful, run the command to copy the contents of the private key json:
+     - `terraform output -raw finte_service_account_key |pbcopy` .
+12. Go to the GCP connection and paste the contents of the `finte-gcp-private-key.json` file into the text field labeled `Private Key (JSON)`.
+13. If you have not already done so, create the BigQuery billing dataset as you will need Project ID and Dataset ID where you are storing the billing data. See the [gcp-terraform-finte-billing-data-setup](https://github.com/finte-public-ai/gcp-terraform-finte-billing-data-setup) for more information.
 13. Click the `Create connection` button.
 
 
@@ -105,7 +115,6 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_connect_multiple_projects"></a> [connect\_multiple\_projects](#input\_connect\_multiple\_projects) | Tells the service account whether it can see all the projects or not. | `bool` | `true` | no |
 | <a name="input_finte_service_account_name"></a> [finte\_service\_account\_name](#input\_finte\_service\_account\_name) | Name of the service account | `string` | `"FinTeReadOnly"` | no |
 | <a name="input_gcp_org_domain"></a> [gcp\_org\_domain](#input\_gcp\_org\_domain) | GCP Organization domain. | `string` | n/a | yes |
 | <a name="input_gcp_project_id"></a> [gcp\_project\_id](#input\_gcp\_project\_id) | Project identifier where the service account will be created. | `string` | n/a | yes |

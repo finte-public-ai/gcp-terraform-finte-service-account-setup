@@ -3,3 +3,4 @@ output "finte_service_account_key" {
   description = "FinTeService Account Private Key"
   sensitive   = true
 }
+

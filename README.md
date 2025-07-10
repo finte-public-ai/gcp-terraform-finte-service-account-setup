@@ -20,7 +20,7 @@ Replace `YOUR_ORGANIZATION_DOMAIN` with the organization domain. i.e. `your_org.
 module "service_account_creation" {
   source = "git::https://github.com/finte-public-ai/gcp-terraform-finte-service-account-setup.git?ref=main"
   gcp_org_domain = "YOUR_ORGANIZATION_DOMAIN"
-  gcp_project_id = "YOUR_PROJECT_ID" # Service accounts are GCP resources that must belong to a project. Which project you choose is not important.
+  gcp_project_id = "YOUR_PROJECT_ID" # Service accounts are GCP resources that must belong to a project. Choose a project that your terraform service account has appropriate permissions to.
   # finte_service_account_name = "YOUR_SERVICE_ACCOUNT_NAME" # if it's unset, the default name is FinTeReadOnly
 }
 

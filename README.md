@@ -38,29 +38,12 @@ terraform output -raw finte_service_account_key |pbcopy
 
 ## Troubleshooting
 
-1. Fixing `CUSTOM_ORG_POLICY_VIOLATION: Error creating service account: googleapi: Error 400: Operation denied by org policy: ["constraints/iam.managed.disableServiceAccountCreation"]` issue
+### CUSTOM_ORG_POLICY_VIOLATION
+If you encounter one of the following errors, you will need to turn off enforcement of the relevant policy. See the [Policy Updates](https://docs.google.com/document/d/1U9wysY8wVnQMd4If3QJ1wzUZaSlAFZhRCjxnAYTr1eI/edit?tab=t.o63zg6fssnhm) section of the  FinTe Knowledge Base for information on how to temporarily turn off these policies so that you terraform can successfully create the service account.
 
-   * Go to the [IAM Organization Policies](https://console.cloud.google.com/iam-admin/orgpolicies) page.
-   * Make sure the project where the service account will be stored is selected top left in the console.
-   * Type `iam.managed.disableServiceAccountCreation` on the `🔽 Filter` bar and select the policy.
-   * Click over `📝 MANAGE POLICY` button.
-   * Go to `Policy source` and select the `Override parent's policy` option.
-   * Scroll down a little and open up the `Enforced` rule.
-   * Make sure the `Enforcement` section is `Off`.
-   * Click `SET POLICY` to save changes.
-   * Run this script again.
-
-1. Fixing `CUSTOM_ORG_POLICY_VIOLATION: Error creating service account key: googleapi: Error 400: Operation denied by org policy: ["constraints/iam.managed.disableServiceAccountKeyCreation": "This constraint, when enforced, blocks service account key creation."].` issue.
-   * Go to the [IAM Organization Policies](https://console.cloud.google.com/iam-admin/orgpolicies) page.
-   * Make sure the project where the service account will be stored is selected top left in the console.
-   * Type `iam.managed.disableServiceAccountKeyCreation` on the `🔽 Filter` bar and select the policy.
-   * Click over `📝 MANAGE POLICY` button.
-   * Go to `Policy source` and select the `Override parent's policy` option.
-   * Scroll down a little and open up the `Enforced` rule.
-   * Make sure the `Enforcement` section is `Off`.
-   * Click `SET POLICY` to save changes.
-   * Run this script again.
-
+  * `Error creating service account: googleapi: Error 400: Operation denied by org policy: ["constraints/iam.managed.disableServiceAccountCreation"]`
+  * `Error creating service account key: googleapi: Error 400: Operation denied by org policy: ["constraints/iam.managed.disableServiceAccountKeyCreation": "This constraint, when enforced, blocks service account key creation."].`
+ 
 ## Setup
 
 The following steps demonstrate how to connect GCP in FinTe when using this terraform module.

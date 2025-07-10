@@ -13,12 +13,12 @@ Make sure the service account that will run this terraform script has the follow
 
 ## Example Usage
 
-The example below uses `ref=main` (which is appended in the URL),  but it is recommended to use a specific tag version (i.e. `ref=1.0.0`) to avoid breaking changes. Go to the release page for a list of published versions. [releases page](https://github.com/finte-ai/gcp-terraform-finte-service-account-setup/releases) for a list of published versions.
+The example below uses `ref=main` (which is appended in the URL),  but it is recommended to use a specific tag version (i.e. `ref=1.0.0`) to avoid breaking changes. Go to the release page for a list of published versions. [releases page](https://github.com/finte-public-ai/gcp-terraform-finte-service-account-setup/releases) for a list of published versions.
 
 Replace `YOUR_ORGANIZATION_DOMAIN` with the organization domain. i.e. `your_org.com`.
 ```
 module "service_account_creation" {
-  source = "git::https://github.com/finte-ai/gcp-terraform-finte-service-account-setup.git?ref=main"
+  source = "git::https://github.com/finte-public-ai/gcp-terraform-finte-service-account-setup.git?ref=main"
   gcp_org_domain = "YOUR_ORGANIZATION_DOMAIN"
   gcp_project_id = "YOUR_PROJECT_ID" # Service accounts are GCP resources that must belong to a project. Which project you choose is not important.
   # finte_service_account_name = "YOUR_SERVICE_ACCOUNT_NAME" # if it's unset, the default name is FinTeReadOnly
@@ -50,7 +50,7 @@ The following steps demonstrate how to connect GCP in FinTe when using this terr
 
 1. Add the code above to your terraform project.
 2. Make sure the service account to authenticate this script has the roles `Organization Administrator`, `Service Account Admin`, `Service Account Key Admin` and ` Service Usage Admin`.
-3. Replace `main` in `ref=main` with the latest version from the [releases page](https://github.com/finte-ai/gcp-terraform-finte-service-account-setup/releases).
+3. Replace `main` in `ref=main` with the latest version from the [releases page](https://github.com/finte-public-ai/gcp-terraform-finte-service-account-setup/releases).
 4. Replace `YOUR_ORGANIZATION_DOMAIN` with the GCP organization domain.
 5. Replace `YOUR_PROJECT_ID` with a project in your organization which the service account should belong to.
 6. Replace the given `finte_service_account_name` if you don't want the Service Account name to be the default: `FinTeReadOnly`.

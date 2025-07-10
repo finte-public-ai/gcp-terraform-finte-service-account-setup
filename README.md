@@ -11,6 +11,8 @@ Make sure the service account that will run this terraform script has the follow
 * Service Account Key Admin
 * Service Usage Admin
 
+The service account also needs to have the Organization Administrator role at the Org level, not just the project level that hosts it.
+
 ## Example Usage
 
 The example below uses `ref=main` (which is appended in the URL),  but it is recommended to use a specific tag version (i.e. `ref=1.0.0`) to avoid breaking changes. Go to the release page for a list of published versions. [releases page](https://github.com/finte-public-ai/gcp-terraform-finte-service-account-setup/releases) for a list of published versions.
